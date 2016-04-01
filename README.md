@@ -1,7 +1,12 @@
 # ENGN3213 Assignment 1
 
+###Report
+
+[Overleaf](https://www.overleaf.com/4752390rdbzzc)
+
 ###TODO:
-* Overleaf  -  https://www.overleaf.com/4752390rdbzzc
+
+* Watch mini-lecture on serial comms
 * Get serial port specs
 * Do some work
 
