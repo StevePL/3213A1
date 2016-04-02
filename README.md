@@ -8,8 +8,15 @@
 
 * Watch mini-lecture on serial comms
 * Testbenches
+* UCF
 * The rest of the functions 2 and 3
 * Combine all in one
+
+### Simulation HOWTO
+
+1. `iverilog $file $tb`
+2. `vvp a.out`
+3. `gtkwave $dump`
 
 ### Status
 
