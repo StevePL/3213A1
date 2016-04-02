@@ -8,7 +8,6 @@
 
 * Watch mini-lecture on serial comms
 * Testbenches
-* Keyboard
 * The rest of the functions 2 and 3
 * Combine all in one
 
@@ -17,6 +16,7 @@
 * **[untested]** `cereal.v` - serial state machine (takes data[7:0] and sends it)
 * **[untested]** `clockdiv.v` - variable rate heartbeat
 * **[untested]** `debouncer.v` - 'nuff said
+* **[untested]** `keyboard.v` - main file, instantiates all others and reads input
 
 ###Labs
 
