@@ -1,7 +1,7 @@
 module clockdiv (input wire sysclk, output wire pulse);
 
 parameter WIDTH=8;
-parameter COUNT=WIDTH**2-1;
+parameter COUNT=2**WIDTH-1;
 reg [(WIDTH-1):0] clockdiv = 0;
 
 assign pulse=!clockdiv;
