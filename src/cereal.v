@@ -24,25 +24,25 @@ module cereal (input wire sysclk,
   reg [3:0] state = IDLE;
   
   //next state
-  always @(posedge sysclk) begin
+  always @(posedge pulse) begin
     case(state)
-      IDLE: if(start) state <= START;   // go to start
-      START: if(pulse) state <= BIT0;   // send start bit
-      BIT0: if(pulse) state <= BIT1;    // bits 0--7
-      BIT1: if(pulse) state <= BIT2;
-      BIT2: if(pulse) state <= BIT3;
-      BIT3: if(pulse) state <= BIT4;
-      BIT4: if(pulse) state <= BIT5;
-      BIT5: if(pulse) state <= BIT6;
-      BIT6: if(pulse) state <= BIT7;
-      BIT7: if(pulse) state <= DONE;
-      DONE: if(pulse) state <= IDLE;    // stop bit
+      IDLE: if (start) state <= START;   // go to start
+      START: state <= BIT0;   // send start bit
+      BIT0: state <= BIT1;    // bits 0--7
+      BIT1: state <= BIT2;
+      BIT2: state <= BIT3;
+      BIT3: state <= BIT4;
+      BIT4: state <= BIT5;
+      BIT5: state <= BIT6;
+      BIT6: state <= BIT7;
+      BIT7: state <= DONE;
+      DONE: state <= IDLE;    // stop bit
       default: state <= IDLE;           // fallback
     endcase
   end
   
   //send data over cereal
-  always @(posedge sysclk) begin
+  always @(state) begin
     case(state)
       IDLE: cereal = 1'b1;              // send high idle
       START: cereal = 1'b0;             // send start bit

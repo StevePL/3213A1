@@ -1,7 +1,10 @@
-module keyboard (input wire sysclk, input wire sw1, input wire sw2, input wire sw3, input wire sw4, input wire btn, output reg [7:0] data, output reg start, output reg out);
+module keyboard (input wire sysclk, input wire sw1, input wire sw2, input wire sw3, input wire sw4, input wire btn, output wire out);
 
     wire btn_deb;
-    reg [3:0] in;
+    reg start; //hold time of 5702 clock cycles
+    reg hold = 0;
+    wire [3:0] in;
+    reg [7:0] data;
     
     // inst debouncer
     debouncer debouncer(.sysclk(sysclk),.btn(btn),.btn_deb(btn_deb));
@@ -34,8 +37,13 @@ module keyboard (input wire sysclk, input wire sw1, input wire sw2, input wire s
     
     // send
     always @(posedge sysclk) begin
-        if(btn_deb && !data) start = 1'b1;
-        else start = 1'b0;
+        if(!out) hold <= 1'b0;                      // release start if transmission has begun
+        if(btn_deb && (data != 8'b00000000)) begin  // start transmission and hold start
+            start <= 1'b1;
+            hold <= 1'b1;
+        end
+        else if (hold) start <= 1'b1;               // keep holding start
+        else start <= 1'b0;                         // release start
     end
     
 endmodule
