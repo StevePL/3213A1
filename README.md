@@ -21,8 +21,8 @@
 ### Status
 
 * **[untested]** `cereal.v` - serial state machine (takes data[7:0] and sends it)
-* **[working]** `clockdiv.v` - variable rate heartbeat (TB is in `/src/tb/tb_clockdiv.v`).
-* **[untested]** `debouncer.v` - 'nuff said
+* **[working]** `clockdiv.v` - variable rate heartbeat (TB is in `/src/tb/tb_clockdiv.v`)
+* **[working]** `debouncer.v` - pushbutton single pulse (TB in `/src/tb/tb_debouncer.v`)
 * **[untested]** `keyboard.v` - main file, instantiates all others and reads input
 
 ###Labs
