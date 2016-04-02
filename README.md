@@ -4,13 +4,19 @@
 
 [Overleaf](https://www.overleaf.com/4752390rdbzzc)
 
-###TODO:
+###TODO
 
 * Watch mini-lecture on serial comms
-* Get serial port specs
-* Do some work
+* Testbenches
+* Keyboard
+* Debouncer
 
-###Labs:
+### Status
+
+* *[untested]* `cereal.v` - serial state machine (takes data[7:0] and sends it)
+* *[untested]* `clockdiv.v` - 9600 baud clock divider (heartbeat, actually)
+
+###Labs
 
 TUE 05APR 0900-1300
 
