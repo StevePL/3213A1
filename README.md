@@ -9,7 +9,8 @@
 * Watch mini-lecture on serial comms
 * Testbenches
 * Keyboard
-* The rest of the functions
+* The rest of the functions 2 and 3
+* Combine all in one
 
 ### Status
 
@@ -24,5 +25,4 @@
 * TUE 19APR 1500-1700
 * TUE 26APR 1500-1700
 * THU 28APR 1100-1300
-
-FRI 29APR 0900-1300
+* FRI 29APR 0900-1300
