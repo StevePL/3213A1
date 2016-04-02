@@ -23,8 +23,7 @@ module cereal (input wire sysclk,
   parameter DONE=4'b1011;
   
   //next state
-  always @(posedge sysclk)
-  begin
+  always @(posedge sysclk) begin
     case(state)
       IDLE: if(start) state <= START;   // go to start
       START: if(pulse) state <= BIT0;   // send start bit
@@ -42,8 +41,7 @@ module cereal (input wire sysclk,
   end
   
   //send data over cereal
-  always @(posedge sysclk)
-  begin
+  always @(posedge sysclk) begin
     case(state)
       IDLE: cereal = 1'b1;              // send high idle
       START: cereal = 1'b0;             // send start bit
