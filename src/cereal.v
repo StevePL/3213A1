@@ -1,10 +1,13 @@
-module cereal (input wire clk,
-               input wire pulse,
+module cereal (input wire sysclk,
                input wire [7:0] data,
                input wire start,
-               output reg cereal)
+               output reg cereal);
   
   reg [3:0] state;
+  wire pulse;
+  
+  // inst clockdiv
+  clockdiv #(15,5207) clockdiv(.sysclk(sysclk),.pulse(pulse));
   
   // states
   parameter IDLE=4'b0000;
@@ -20,7 +23,7 @@ module cereal (input wire clk,
   parameter DONE=4'b1011;
   
   //next state
-  always @(posedge clk)
+  always @(posedge sysclk)
   begin
     case(state)
       IDLE: if(start) state <= START;   // go to start
@@ -39,7 +42,7 @@ module cereal (input wire clk,
   end
   
   //send data over cereal
-  always @(posedge clk)
+  always @(posedge sysclk)
   begin
     case(state)
       IDLE: cereal = 1'b1;              // send high idle

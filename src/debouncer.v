@@ -3,7 +3,7 @@ module debouncer (input wire btn, input wire sysclk, input wire reset, output wi
 wire pulse;
 
 // create clockdiv
-clockdiv #(21) clockdiv(.sysclk(sysclk),.pulse(pulse));
+clockdiv #(21) cd(.sysclk(sysclk),.pulse(pulse));
 
 // flip-flops
 reg [2:0] ff;  
