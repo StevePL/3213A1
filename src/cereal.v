@@ -3,7 +3,6 @@ module cereal (input wire sysclk,
                input wire start,
                output reg cereal);
   
-  reg [3:0] state;
   wire pulse;
   
   // inst clockdiv
@@ -21,6 +20,8 @@ module cereal (input wire sysclk,
   parameter BIT6=4'b1100;
   parameter BIT7=4'b1001;
   parameter DONE=4'b1011;
+  
+  reg [3:0] state = IDLE;
   
   //next state
   always @(posedge sysclk) begin
@@ -46,13 +47,13 @@ module cereal (input wire sysclk,
       IDLE: cereal = 1'b1;              // send high idle
       START: cereal = 1'b0;             // send start bit
       BIT0: cereal = data[0];           // bits 0--7
-      BIT1: cereal = data[0];
-      BIT2: cereal = data[0];
-      BIT3: cereal = data[0];
-      BIT4: cereal = data[0];
-      BIT5: cereal = data[0];
-      BIT6: cereal = data[0];
-      BIT7: cereal = data[0];
+      BIT1: cereal = data[1];
+      BIT2: cereal = data[2];
+      BIT3: cereal = data[3];
+      BIT4: cereal = data[4];
+      BIT5: cereal = data[5];
+      BIT6: cereal = data[6];
+      BIT7: cereal = data[7];
       DONE: cereal = 1;                 // stop bit
       default: cereal = 1;              // fallback
     endcase
