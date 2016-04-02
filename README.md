@@ -7,9 +7,9 @@
 ###TODO
 
 * Watch mini-lecture on serial comms
-* Testbenches
 * UCF
-* The rest of the functions 2 and 3
+* Implement function 1
+* Functions 2 and 3
 * Combine all in one
 
 ### Simulation HOWTO
@@ -23,7 +23,7 @@
 * **[working]** `cereal.v` - serial state machine, takes data[7:0] and sends it (TB is in `/src/tb/tb_cereal.v`)
 * **[working]** `clockdiv.v` - variable rate heartbeat (TB is in `/src/tb/tb_clockdiv.v`)
 * **[working]** `debouncer.v` - pushbutton single pulse (TB in `/src/tb/tb_debouncer.v`)
-* **[untested]** `keyboard.v` - main file, instantiates all others and reads input
+* **[working]** `keyboard.v` - main file, instantiates all others and reads input (TB in `/src/tb/tb_keyboard.v`)
 
 ###Labs
 
