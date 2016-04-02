@@ -1,17 +1,17 @@
 module clockdiv (input clk, output pulse);
 
-reg [14:0] clockdiv;
+parameter WIDTH=8;          // 15 for 9600 cereal
+parameter COUNT=WIDTH**2-1; // 5207 for 9600 cereal
+reg [(WIDTH-1):0] clockdiv;
+assign pulse=&clockdiv;
 
-// Count to 5207 (50MHz clock to 9600 BAUD)
 always @(posedge clk) 
 begin
-    if (clockdiv == 5207) 
+    if (clockdiv == COUNT) 
         clockdiv <= 0;
     else
         clockdiv <= clockdiv + 1;
 end
 
-// Pulse every serial bit
-pulse = (clockdiv == 0);
 
 endmodule
