@@ -1,9 +1,10 @@
-module clockdiv (input sysclk, output pulse);
+module clockdiv (input wire sysclk, output wire pulse);
 
 parameter WIDTH=8;
 parameter COUNT=WIDTH**2-1;
-reg [(WIDTH-1):0] clockdiv;
-assign pulse=&clockdiv;
+reg [(WIDTH-1):0] clockdiv = 0;
+
+assign pulse=!clockdiv;
 
 always @(posedge sysclk) begin
     if (clockdiv == COUNT) 
@@ -11,6 +12,5 @@ always @(posedge sysclk) begin
     else
         clockdiv <= clockdiv + 1;
 end
-
 
 endmodule
