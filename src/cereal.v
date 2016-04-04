@@ -1,7 +1,8 @@
 module cereal (input wire sysclk,
                input wire [7:0] data,
                input wire start,
-               output reg cereal);
+               output reg cereal,
+               output reg status);
   
   wire pulse;
   
@@ -36,7 +37,7 @@ module cereal (input wire sysclk,
       BIT5: state <= BIT6;
       BIT6: state <= BIT7;
       BIT7: state <= DONE;
-      DONE: state <= IDLE;    // stop bit
+      DONE: state <= IDLE;              // stop bit
       default: state <= IDLE;           // fallback
     endcase
   end
@@ -44,9 +45,9 @@ module cereal (input wire sysclk,
   //send data over cereal
   always @(state) begin
     case(state)
-      IDLE: cereal = 1'b1;              // send high idle
-      START: cereal = 1'b0;             // send start bit
-      BIT0: cereal = data[0];           // bits 0--7
+      IDLE: begin cereal = 1'b1; status = 1'b1; end                   // send high idle and status to ready
+      START: begin cereal = 1'b0; status = 1'b0; end                  // send start bit and status to busy
+      BIT0: cereal = data[0];                                         // bits 0--7
       BIT1: cereal = data[1];
       BIT2: cereal = data[2];
       BIT3: cereal = data[3];
@@ -54,8 +55,8 @@ module cereal (input wire sysclk,
       BIT5: cereal = data[5];
       BIT6: cereal = data[6];
       BIT7: cereal = data[7];
-      DONE: cereal = 1;                 // stop bit
-      default: cereal = 1;              // fallback
+      DONE: begin cereal = 1'b1; status = 1'b1;                     // stop bit and status to ready
+      default: cereal = 1'b1;                                       // fallback
     endcase
   end
 endmodule
