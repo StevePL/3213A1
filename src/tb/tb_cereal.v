@@ -28,7 +28,7 @@ module TB_cereal;
         data = 8'b00000000;
         #500 data = 8'b01011010;
         #500 start = 1'b1;
-        #600 start = 1'b0;
+        #10000 start = 1'b0;
         #200000; $finish;
     end
 
