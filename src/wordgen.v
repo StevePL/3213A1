@@ -1,10 +1,11 @@
-module keyboard (input wire sysclk, input wire sw1, input wire sw2, input wire sw3, input wire sw4, input wire write, input wire auto, output wire out);
+module wordgen (input wire sysclk, input wire sw1, input wire sw2, input wire sw3, input wire sw4, input wire write, input wire auto, output wire out);
 
     wire write_deb, auto_deb;
     reg start;
     wire status; //cereal status
     reg [7:0] data;
     reg auto_on = 0;
+	 reg i = 0;
     
     // rom wires
     wire [7:0] d1;
@@ -86,43 +87,38 @@ module keyboard (input wire sysclk, input wire sw1, input wire sw2, input wire s
     // output logic
     always @(state) begin
         case(state)
-            W1: for (a1 = 4'b0000, i < 4'b1011, i = i + 1'b1) begin
-                    @(posedge(status) begin
+            W1: begin 
+						for (a1 = 4'b0000; a1 < 4'b1011; a1 = a1 + 1'b1) begin
                         data = d1;
                         start = 1;
-                    end
-                end
+						end
                 done = 1;
-            W2: for (a2 = 4'b0000, i < 4'b1010, i = i + 1'b1) begin
-                    @(posedge(status)) begin
+					 start = 0;
+					 end
+            W2: begin 
+						for (a2 = 4'b0000; a2 < 4'b1010; a2 = a2 + 1'b1) begin
                         data = d2;
                         start = 1;
-                    end
-                    @(negedge(status)) begin
-                        start = 0;
-                    end
-                end
+						end
                 done = 1;
-            W3: for (a3 = 4'b0000, i < 4'b0111, i = i + 1'b1) begin
-                    @(posedge(status) begin
+					 start = 0;
+					 end
+            W3: begin
+						for (a3 = 4'b0000; a3 < 4'b0111; a3 = a3 + 1'b1) begin
                         data = d3;
                         start = 1;
-                    end
-                    @(negedge(status)) begin
-                        start = 0;
-                    end
-                end
+						end
                 done = 1;
-            W4: for (a4 = 4'b0000, i < 4'b0100, i = i + 1'b1) begin
-                    @(posedge(status) begin
+					 start = 0;
+					 end
+            W4: begin
+						for (a4 = 4'b0000; a3 < 4'b0100; a3 = a3 + 1'b1) begin
                         data = d4;
                         start = 1;
-                    end
-                    @(negedge(status)) begin
-                        start = 0;
-                    end
-                end
+						end
                 done = 1;
+					 start = 0;
+					 end
             default: data = 8'b00000000;
         endcase
     end
