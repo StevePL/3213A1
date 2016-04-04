@@ -55,7 +55,7 @@ module cereal (input wire sysclk,
       BIT5: cereal = data[5];
       BIT6: cereal = data[6];
       BIT7: cereal = data[7];
-      DONE: begin cereal = 1'b1; status = 1'b1;                     // stop bit and status to ready
+      DONE: begin cereal = 1'b1; status = 1'b1; end                 // stop bit and status to ready
       default: cereal = 1'b1;                                       // fallback
     endcase
   end
