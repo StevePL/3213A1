@@ -1,6 +1,6 @@
 module rom1 (input wire [3:0] addr, output reg [7:0] data);
-    always @(in) begin
-        case(in)
+    always @(addr) begin
+        case(addr)
             4'b0000: data = 8'b01000101; // E
             4'b0001: data = 8'b01001110; // N
             4'b0010: data = 8'b01000111; // G
