@@ -1,6 +1,6 @@
 module rom3 (input wire [3:0] addr, output reg [7:0] data);
-    always @(in) begin
-        case(in)
+    always @(addr) begin
+        case(addr)
             4'b0000: data = 8'b01010011; // S
             4'b0001: data = 8'b01010100; // T
             4'b0010: data = 8'b01010101; // U
