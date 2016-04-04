@@ -5,7 +5,6 @@ module keyboard (input wire sysclk, input wire sw1, input wire sw2, input wire s
     wire status; //cereal status
     wire [3:0] in;
     reg [7:0] data;
-    reg hold = 0;
     
     // inst debouncer
     debouncer debouncer(.sysclk(sysclk),.btn(btn),.btn_deb(btn_deb));
@@ -38,12 +37,9 @@ module keyboard (input wire sysclk, input wire sw1, input wire sw2, input wire s
     
     // send
     always @(posedge sysclk) begin
-        if(!status) hold <= 1'b0;                      // release start if transmission has begun
-        if(btn_deb && (data != 8'b00000000)) begin     // start transmission and hold start
+        if(btn_deb && (data != 8'b00000000)) begin     // start transmission
             start <= 1'b1;
-            hold <= 1'b1;
         end
-        else if (hold) start <= 1'b1;                  // keep holding start
         else start <= 1'b0;                            // release start
     end
     

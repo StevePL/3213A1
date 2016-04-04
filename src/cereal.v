@@ -24,10 +24,16 @@ module cereal (input wire sysclk,
   
   reg [3:0] state = IDLE;
   
+  reg start_latch = 1'b0;
+  
+  always @(posedge start) begin
+    start_latch = 1'b1;
+  end
+  
   //next state
   always @(posedge pulse) begin
     case(state)
-      IDLE: if (start) state <= START;   // go to start
+      IDLE: if (start_latch) state <= START;   // go to start
       START: state <= BIT0;   // send start bit
       BIT0: state <= BIT1;    // bits 0--7
       BIT1: state <= BIT2;
@@ -55,8 +61,12 @@ module cereal (input wire sysclk,
       BIT5: cereal = data[5];
       BIT6: cereal = data[6];
       BIT7: cereal = data[7];
-      DONE: begin cereal = 1'b1; status = 1'b1; end                 // stop bit and status to ready
-      default: cereal = 1'b1;                                       // fallback
+      DONE: begin                                                     // stop bit and status to ready
+        cereal = 1'b1;
+        status = 1'b1;
+        start_latch = 1'b0;
+      end                 
+      default: cereal = 1'b1;                                         // fallback
     endcase
   end
 endmodule
