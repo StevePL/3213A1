@@ -1,6 +1,6 @@
 `timescale 10ns / 10ns
 
-module TB_wordgen;
+module tb_wordgen;
 
 	reg sysclk; 
 	 reg sw1;
@@ -30,13 +30,14 @@ module TB_wordgen;
     end
     
     initial begin
-        $dumpfile("keyboard.vcd");
+        $dumpfile("wordgen.vcd");
         $dumpvars;
         sw1 = 1'b0;
         sw2 = 1'b0;
         sw3 = 1'b0;
         sw4 = 1'b0;
-        btn = 1'b0;
+        write = 1'b0;
+        auto = 1'b0;
 		  #1000 sw1 = 1'b1;
 		  #5000 sw1 = 1'b0;
 		  #6000 write = 1'b1;

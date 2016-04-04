@@ -23,14 +23,14 @@ module wordgen (input wire sysclk, input wire sw1, input wire sw2, input wire sw
     parameter W4 = 4'b0100;
     parameter WAIT = 4'b1000;
     
-    reg state[3:0] = WAIT;
-    reg next[3:0] = WAIT;
+    reg [3:0] state = WAIT;
+    reg [3:0] next = WAIT;
     
     reg done = 0;
     
     // inst debouncers
-    debouncer debouncer(.sysclk(sysclk),.btn(write),.btn_deb(write_deb));
-    debouncer debouncer(.sysclk(sysclk),.btn(auto),.btn_deb(auto_deb));
+    debouncer debouncer_w(.sysclk(sysclk),.btn(write),.btn_deb(write_deb));
+    debouncer debouncer_a(.sysclk(sysclk),.btn(auto),.btn_deb(auto_deb));
     // inst cereal
     cereal cereal(.sysclk(sysclk),.data(data),.start(start),.cereal(out),.status(status));
     //inst slowclk ~1 s heartbeat
@@ -88,37 +88,37 @@ module wordgen (input wire sysclk, input wire sw1, input wire sw2, input wire sw
     always @(state) begin
         case(state)
             W1: begin 
-						for (a1 = 4'b0000; a1 < 4'b1011; a1 = a1 + 1'b1) begin
+                    for (a1 = 4'b0000; a1 < 4'b1011; a1 = a1 + 1'b1) begin
                         data = d1;
                         start = 1;
-						end
-                done = 1;
-					 start = 0;
-					 end
+					end
+                    done = 1;
+					start = 0;
+                end
             W2: begin 
-						for (a2 = 4'b0000; a2 < 4'b1010; a2 = a2 + 1'b1) begin
+                    for (a2 = 4'b0000; a2 < 4'b1010; a2 = a2 + 1'b1) begin
                         data = d2;
                         start = 1;
-						end
-                done = 1;
-					 start = 0;
-					 end
+                    end
+                    done = 1;
+					start = 0;
+				end
             W3: begin
-						for (a3 = 4'b0000; a3 < 4'b0111; a3 = a3 + 1'b1) begin
+					for (a3 = 4'b0000; a3 < 4'b0111; a3 = a3 + 1'b1) begin
                         data = d3;
                         start = 1;
-						end
-                done = 1;
-					 start = 0;
-					 end
+					end
+                    done = 1;
+					start = 0;
+				end
             W4: begin
-						for (a4 = 4'b0000; a3 < 4'b0100; a3 = a3 + 1'b1) begin
+					for (a4 = 4'b0000; a3 < 4'b0100; a3 = a3 + 1'b1) begin
                         data = d4;
                         start = 1;
-						end
-                done = 1;
-					 start = 0;
-					 end
+					end
+                    done = 1;
+					start = 0;
+				end
             default: data = 8'b00000000;
         endcase
     end
