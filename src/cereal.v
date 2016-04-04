@@ -25,6 +25,11 @@ module cereal (input wire sysclk,
   reg [3:0] state = IDLE;
   
   reg start_latch = 1'b0;
+  reg [7:0] data_latch;
+  
+  always @(posedge sysclk) begin
+    if(status) data_latch = data;
+  end
   
   always @(posedge start) begin
     start_latch = 1'b1;
@@ -53,14 +58,14 @@ module cereal (input wire sysclk,
     case(state)
       IDLE: begin cereal = 1'b1; status = 1'b1; end                   // send high idle and status to ready
       START: begin cereal = 1'b0; status = 1'b0; end                  // send start bit and status to busy
-      BIT0: cereal = data[0];                                         // bits 0--7
-      BIT1: cereal = data[1];
-      BIT2: cereal = data[2];
-      BIT3: cereal = data[3];
-      BIT4: cereal = data[4];
-      BIT5: cereal = data[5];
-      BIT6: cereal = data[6];
-      BIT7: cereal = data[7];
+      BIT0: cereal = data_latch[0];                                         // bits 0--7
+      BIT1: cereal = data_latch[1];
+      BIT2: cereal = data_latch[2];
+      BIT3: cereal = data_latch[3];
+      BIT4: cereal = data_latch[4];
+      BIT5: cereal = data_latch[5];
+      BIT6: cereal = data_latch[6];
+      BIT7: cereal = data_latch[7];
       DONE: begin                                                     // stop bit and status to ready
         cereal = 1'b1;
         status = 1'b1;
