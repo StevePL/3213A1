@@ -2,9 +2,10 @@ module cereal (input wire sysclk,
                input wire [7:0] data,
                input wire start,
                output reg cereal,
-               output reg status);
+               output reg status,
+					output wire pulse);
   
-  wire pulse;
+  //wire pulse;
   
   // inst clockdiv
   clockdiv #(15,5207) clockdiv(.sysclk(sysclk),.pulse(pulse));
@@ -25,14 +26,15 @@ module cereal (input wire sysclk,
   reg [3:0] state = IDLE;
   
   reg start_latch = 1'b0;
-  reg [7:0] data_latch;
+  reg [7:0] data_latch = 8'b00000000;
   
   always @(posedge sysclk) begin
-    if(status) data_latch = data;
+    if(status) data_latch <= data;
   end
   
-  always @(posedge start) begin
-    start_latch = 1'b1;
+  always @(posedge sysclk) begin
+		if(start) start_latch <= 1'b1;
+		else if (!status) start_latch <= 1'b0;
   end
   
   //next state
@@ -54,24 +56,24 @@ module cereal (input wire sysclk,
   end
   
   //send data over cereal
-  always @(state) begin
+  always @(*) begin
     case(state)
       IDLE: begin cereal = 1'b1; status = 1'b1; end                   // send high idle and status to ready
       START: begin cereal = 1'b0; status = 1'b0; end                  // send start bit and status to busy
-      BIT0: cereal = data_latch[0];                                         // bits 0--7
-      BIT1: cereal = data_latch[1];
-      BIT2: cereal = data_latch[2];
-      BIT3: cereal = data_latch[3];
-      BIT4: cereal = data_latch[4];
-      BIT5: cereal = data_latch[5];
-      BIT6: cereal = data_latch[6];
-      BIT7: cereal = data_latch[7];
+      BIT0: begin cereal = data_latch[0]; status = 1'b0; end                                       // bits 0--7
+      BIT1: begin cereal = data_latch[1]; status = 1'b0;end
+      BIT2: begin cereal = data_latch[2]; status = 1'b0;end
+      BIT3: begin cereal = data_latch[3]; status = 1'b0;end
+      BIT4: begin cereal = data_latch[4]; status = 1'b0;end
+      BIT5: begin cereal = data_latch[5]; status = 1'b0;end
+      BIT6: begin cereal = data_latch[6]; status = 1'b0;end
+      BIT7: begin cereal = data_latch[7]; status = 1'b0;end
       DONE: begin                                                     // stop bit and status to ready
         cereal = 1'b1;
         status = 1'b1;
-        start_latch = 1'b0;
+        //start_latch = 1'b0;
       end                 
-      default: cereal = 1'b1;                                         // fallback
+      default: begin cereal = 1'b1; status = 1'b1; end                       // fallback
     endcase
   end
 endmodule
