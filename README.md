@@ -7,9 +7,8 @@
 ###TODO
 
 * Watch mini-lecture on serial comms
-* UCF
-* Implement function 1
-* Functions 2 and 3
+* Thorough testing of Function 2
+* Function 3
 * Combine all in one
 
 ### Simulation HOWTO
@@ -24,8 +23,9 @@
 * **[working]** `clockdiv.v` - variable rate heartbeat (TB is in `/src/tb/tb_clockdiv.v`)
 * **[working]** `debouncer.v` - pushbutton single pulse (TB in `/src/tb/tb_debouncer.v`)
 * **[working]** `keyboard.v` - main file, instantiates all others and reads input (TB in `/src/tb/tb_keyboard.v`)
-* **[untested]** `rom1.v` -- `rom4.v` - store words
+* **[working]** `rom1.v` -- `rom4.v` - store words
 * **[untested]** `wordgen.v` - word generator for function 2
+* **[partially tested]** `control.v` - word generalor for function 2 - Steves version
 
 ###Labs
 
@@ -35,3 +35,5 @@
 * TUE 26APR 1500-1700
 * THU 28APR 1100-1300
 * FRI 29APR 0900-1300
+* 
+
