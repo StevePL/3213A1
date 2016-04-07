@@ -1,68 +1,24 @@
-`timescale 10ns / 10ns
+module control (input wire sysclk, input wire write, input wire sw1, input wire sw2, input wire sw3, input wire sw4, output wire out_fin);
 
 
-module tb_control;
-
-	// Inputs
-	reg sysclk;
-	reg write;
-	reg sw1;
-	reg sw2;
-	reg sw3;
-	reg sw4;
-
-	// Outputs
-	wire out;
-
-	// Instantiate the Unit Under Test (UUT)
-	control uut (
-		.sysclk(sysclk), 
-		.write(write), 
-		.sw1(sw1), 
-		.sw2(sw2), 
-		.sw3(sw3), 
-		.sw4(sw4), 
-		.out(out)
-	);
+	wire holderOut;
+	wire [3:0] addr;
+   wire [7:0] d1;
+	wire [7:0] d2;
+	wire [7:0] d3;
+	wire [7:0] d4;
+	wire [2:0] count8;
+	wire [7:0] count;
 	
-	 initial begin
-        sysclk=1'b0;
-        forever #1 sysclk = ~sysclk;
-    end
+    // rom instances
+    rom1 rom1(.data(d1),.addr(addr));
+    rom2 rom2(.data(d2),.addr(addr));
+    rom3 rom3(.data(d3),.addr(addr));
+    rom4 rom4(.data(d4),.addr(addr));
+    
+	 holder holder(.sysclk(sysclk), .write(write), .sw1(sw1), .sw2(sw2), .sw3(sw3), .sw4(sw4), .out(holderOut));
+	 splitter splitter(.sysclk(sysclk), .sw1(sw1), .sw2(sw2), .sw3(sw3), .sw4(sw4), .holder(holderOut), .rom1(d1), .rom2(d2), .rom3(d3), .rom4(d4), .count8(count8), .out(out_fin), .count(count));
+	 addr addr1(.sysclk(sysckl), .count(count), .addr(addr));
+	 
 
-	initial begin
-        $dumpfile("control.vcd");
-        $dumpvars;
-        sw1 = 1'b0;
-        sw2 = 1'b0;
-        sw3 = 1'b0;
-        sw4 = 1'b0;
-        write = 1'b0;
-        #1000 sw1 = 1'b1;
-        #5000 sw1 = 1'b0;
-        #6000 write = 1'b1;
-        #407000 write = 1'b0;
-        #410000 sw1 = 1'b1;
-        #415000 write = 1'b1;
-        #820000 write = 1'b0;
-        #825000 sw1 = 1'b1;
-        #830000 sw1 = 1'b1;
-        #830000 sw2 = 1'b1;
-        #830000 sw3 = 1'b1;
-        #832000 write = 1'b1;
-        #1235000 write = 1'b0;
-        #1240000 sw4 = 1'b1;
-        #1245000 write = 1'b1;
-        #1850000 sw1 = 1'b0;
-        #1850000 sw2 = 1'b0;
-        #1850000 sw3 = 1'b0;
-        #1850000 sw4 = 1'b0;
-        #1870000 write = 1'b0;
-        #2000000; $finish;
-        
-		// Add stimulus here
-
-	end
-      
 endmodule
-
