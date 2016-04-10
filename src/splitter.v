@@ -9,13 +9,12 @@ module splitter (
 	input wire [7:0] rom2,
 	input wire [7:0] rom3,
 	input wire [7:0] rom4,
-	output reg out,
+	output reg [7:0] currentData,
 	output reg [3:0] count8,
 	output reg [7:0] count);
 
 	// Is this correct syntax?
 	reg [1:0] signum = 2'b00;
-	reg [7:0] currentData = 8'b00000000;
 	
     // next state
     always @(posedge sysclk) begin
@@ -62,16 +61,14 @@ module splitter (
 					begin 
 						currentData <= rom4;
 					end
-				else out <= 0;
-				
-				out <= currentData[count8];
+				else currentData <= 8'b00000000;
 			end
 		else 
 			begin
 				signum <= 0;
 				count <= 0;
 				count8 <= 0;
-				out <= 0;
+				currentData <= 8'b00000000;
 			end
 		end
 endmodule
